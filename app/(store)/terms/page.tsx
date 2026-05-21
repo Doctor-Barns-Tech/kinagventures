@@ -1,6 +1,15 @@
 'use client';
 
+import { useCMS } from '@/context/CMSContext';
+import { DEFAULT_CONTACT_ADDRESS, DEFAULT_CONTACT_PHONE } from '@/lib/contact';
+
 export default function TermsPage() {
+  const { getSetting } = useCMS();
+  const siteName = getSetting('site_name') || 'KINAG VENTURES';
+  const contactEmail = getSetting('contact_email') || getSetting('integration_admin_email') || 'support@kinagventures.com';
+  const contactPhone = getSetting('contact_phone') || DEFAULT_CONTACT_PHONE;
+  const contactAddress = getSetting('contact_address') || DEFAULT_CONTACT_ADDRESS;
+
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-gradient-to-br from-gray-50 via-white to-amber-50 py-16">
@@ -10,7 +19,7 @@ export default function TermsPage() {
             <p className="text-xl text-gray-600 leading-relaxed">
               Please read these terms carefully before using our website and services.
             </p>
-            <p className="text-sm text-gray-500 mt-4">Last updated: December 2024</p>
+            <p className="text-sm text-gray-500 mt-4">Last updated: May 2026</p>
           </div>
         </div>
       </div>
@@ -185,7 +194,7 @@ export default function TermsPage() {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">7. Intellectual Property</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              All content on this website, including text, graphics, logos, images, videos, and software, is the property of Premium Store or its content suppliers and is protected by copyright, trademark, and other intellectual property laws.
+              All content on this website, including text, graphics, logos, images, videos, and software, is the property of {siteName} or its content suppliers and is protected by applicable intellectual property laws.
             </p>
             <p className="text-gray-600 leading-relaxed mb-4">
               You may not reproduce, distribute, modify, create derivative works of, publicly display, or otherwise use any content from this website without our express written permission.
@@ -229,7 +238,7 @@ export default function TermsPage() {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">9. Limitation of Liability</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              To the fullest extent permitted by law, Premium Store shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from:
+              To the fullest extent permitted by law, {siteName} shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from:
             </p>
             <ul className="space-y-2 text-gray-600 mb-6">
               <li className="flex items-start gap-2">
@@ -261,14 +270,14 @@ export default function TermsPage() {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">10. Indemnification</h2>
             <p className="text-gray-600 leading-relaxed">
-              You agree to indemnify and hold harmless Premium Store, its affiliates, officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from your use of the website, violation of these terms, or infringement of any third-party rights.
+              You agree to indemnify and hold harmless {siteName}, its affiliates, officers, directors, employees, and agents from any claims, damages, losses, liabilities, and expenses (including legal fees) arising from your use of the website, violation of these terms, or infringement of any third-party rights.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">11. Governing Law & Disputes</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              These terms are governed by the laws of your jurisdiction. Any disputes arising from these terms or your use of the website shall be subject to the exclusive jurisdiction of the courts in that jurisdiction.
+              These terms are governed by the laws of the Republic of Ghana. Any disputes arising from these terms or your use of the website shall be subject to the jurisdiction of the courts of Ghana.
             </p>
             <p className="text-gray-600 leading-relaxed">
               Before initiating any legal action, you agree to first contact us to seek resolution through informal negotiation.
@@ -294,7 +303,7 @@ export default function TermsPage() {
                   <i className="ri-mail-line text-gray-900 text-xl mt-1"></i>
                   <div>
                     <p className="font-medium text-gray-900">Email</p>
-                    <a href="mailto:contact@example.com" className="text-gray-900 hover:underline">contact@example.com</a>
+                    <a href={`mailto:${contactEmail}`} className="text-gray-900 hover:underline">{contactEmail}</a>
                   </div>
                 </div>
 
@@ -302,7 +311,7 @@ export default function TermsPage() {
                   <i className="ri-phone-line text-gray-900 text-xl mt-1"></i>
                   <div>
                     <p className="font-medium text-gray-900">Phone</p>
-                    <a href="tel:" className="text-gray-900 hover:underline">Contact</a>
+                    <a href={`tel:${contactPhone}`} className="text-gray-900 hover:underline">{contactPhone}</a>
                   </div>
                 </div>
 
@@ -310,7 +319,7 @@ export default function TermsPage() {
                   <i className="ri-map-pin-line text-gray-900 text-xl mt-1"></i>
                   <div>
                     <p className="font-medium text-gray-900">Address</p>
-                    <p className="text-gray-600">Configure in Admin → Settings</p>
+                    <p className="text-gray-600">{contactAddress}</p>
                   </div>
                 </div>
               </div>

@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import { useCMS } from '@/context/CMSContext';
-import { toWhatsAppNumber } from '@/lib/contact';
+import { DEFAULT_CONTACT_PHONE, toWhatsAppNumber } from '@/lib/contact';
 import AnimatedSection from '@/components/AnimatedSection';
 
 export default function RefundPolicyPage() {
   const { getSetting } = useCMS();
   const contactEmail = getSetting('contact_email') || '';
-  const contactPhone = getSetting('contact_phone') || '';
+  const contactPhone = getSetting('contact_phone') || DEFAULT_CONTACT_PHONE;
   const whatsappNumber = toWhatsAppNumber(contactPhone);
   const whatsappHref = whatsappNumber ? `https://wa.me/${whatsappNumber}` : '#';
 
@@ -21,7 +21,7 @@ export default function RefundPolicyPage() {
             <p className="text-xl text-gray-600 leading-relaxed">
               Our return and refund terms so you can shop with confidence.
             </p>
-            <p className="text-sm text-gray-500 mt-4">Last updated: February 2025</p>
+            <p className="text-sm text-gray-500 mt-4">Last updated: May 2026</p>
           </AnimatedSection>
         </div>
       </div>
@@ -31,17 +31,17 @@ export default function RefundPolicyPage() {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Return Policy</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Please review the eligibility requirements below and contact us first to request return approval before sending any item back.
+              We want you to shop with confidence. Please review the eligibility requirements below and contact us first to request return approval before sending any item back.
             </p>
 
-            <h3 className="text-xl font-bold text-gray-900 mb-4 mt-8">Exceptions / Non-returnable Items</h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4 mt-8">Non-returnable Items</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Certain types of items cannot be returned, like custom orders (such as special orders or personalized items), and personal care goods (such as beauty products). We also do not accept returns for hazardous materials, flammable liquids, or gases. Please get in touch if you have questions or concerns about your specific item.
+              For hygiene and safety reasons, some items are not eligible for return, including custom or personalized orders, opened personal care/beauty products, hazardous materials, sale items, and gift cards. Please contact us before purchase if you are unsure whether an item is returnable.
             </p>
 
             <h3 className="text-xl font-bold text-gray-900 mb-4 mt-8">Eligibility for Return</h3>
             <p className="text-gray-600 leading-relaxed mb-4">
-              To be eligible for a return, your item must be in the same condition that you received it, unworn or unused, with tags, and in its original packaging. You&apos;ll also need the receipt or proof of purchase.
+              To be eligible for a return, your item must be in the same condition you received it: unworn or unused, with tags, and in original packaging. You will also need a receipt, order number, or other valid proof of purchase.
             </p>
 
             <h3 className="text-xl font-bold text-gray-900 mb-4 mt-8">How to Start a Return</h3>
@@ -57,27 +57,24 @@ export default function RefundPolicyPage() {
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Damages &amp; Issues</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Please inspect your order upon reception and contact us immediately if the item is defective, damaged or if you receive the wrong item, so that we can evaluate the issue and make it right.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              <strong>Exceptions / non-returnable items:</strong> Certain types of items cannot be returned, like custom orders (such as special orders or personalized items), and personal care goods (such as beauty products). We also do not accept returns for hazardous materials, flammable liquids, or gases. Please get in touch if you have questions or concerns about your specific item. Unfortunately, we cannot accept returns on sale items or gift cards.
+              Please inspect your order upon delivery and contact us as soon as possible if an item is defective, damaged, or incorrect. We will review each issue promptly and provide the most appropriate resolution, including replacement, exchange, or refund where applicable.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Exchanges</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              The fastest way to ensure you get what you want is to return the item you have, and once the return is accepted, the exchange for the new item will be done.
+              The fastest way to get the correct item is to request a return for the original product first. Once approved, we can process an exchange based on available stock.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              <strong>Note:</strong> You cannot request a different item other than the one you purchased initially.
+              <strong>Note:</strong> If the exact replacement is unavailable, we will offer a refund to your original payment method.
             </p>
           </section>
 
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Refunds</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              If we don&apos;t have the same item you purchased, then a full refund will be made. We will notify you once we&apos;ve received and inspected your return, and let you know if the refund was approved or not. If approved, you&apos;ll be automatically refunded on your original payment method. Please remember it can take some time for your bank or credit card company to process and post the refund too.
+              If we do not have the same item available for replacement, a full refund will be issued. After receiving and inspecting your return, we will notify you whether your refund is approved. Approved refunds are sent to your original payment method. Processing times can vary depending on your payment provider or bank.
             </p>
           </section>
 
