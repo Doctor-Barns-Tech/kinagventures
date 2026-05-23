@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-import { sendOrderConfirmation, sendOrderPlaced, sendOrderStatusUpdate, sendWelcomeMessage, sendContactMessage, sendPaymentLink, sendEmail, sendSMS, emailLayout } from '@/lib/notifications';
+import { sendOrderConfirmation, sendOrderStatusUpdate, sendWelcomeMessage, sendContactMessage, sendPaymentLink, sendEmail, sendSMS, emailLayout } from '@/lib/notifications';
 import { checkRateLimit, getClientIdentifier, RATE_LIMITS } from '@/lib/rate-limit';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -78,10 +78,9 @@ export async function POST(request: Request) {
         }
 
         if (type === 'order_placed') {
-            // Admin-only alert fired the moment an order is created
-            // (before payment is confirmed). Customer is NOT notified here.
-            await sendOrderPlaced(payload);
-            return NextResponse.json({ success: true, message: 'Admin alerted of new order' });
+            // Deprecated intentionally: admin emails should be sent only after payment
+            // confirmation (paid orders), not when an order is merely created.
+            return NextResponse.json({ success: true, skipped: true, message: 'Skipped pre-payment notification' });
         }
 
         if (type === 'order_updated') {

@@ -247,21 +247,7 @@ export default function CheckoutPage() {
         p_address: shippingData
       });
 
-      // 4a. Alert the admin IMMEDIATELY that an order was placed.
-      //     Fire-and-forget — runs in parallel with the payment redirect so the
-      //     admin always knows about the order even if the customer abandons
-      //     payment or the gateway callback never fires. The customer's
-      //     "Order Confirmed!" email still only goes out when payment is verified.
-      fetch('/api/notifications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'order_placed',
-          payload: order
-        })
-      }).catch(err => console.error('order_placed notification error:', err));
-
-      // 4b. Handle Payment Redirects or Completion
+      // 4. Handle Payment Redirects or Completion
       if (paymentMethod === 'moolre') {
         try {
           const paymentRes = await fetch('/api/payment/moolre', {
@@ -296,7 +282,7 @@ export default function CheckoutPage() {
         }
       }
 
-      // 5. Send Notifications (For COD or others)
+      // 5. Send Notifications (For COD or other already-paid flows)
       fetch('/api/notifications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
