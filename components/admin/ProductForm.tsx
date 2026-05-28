@@ -47,12 +47,10 @@ export default function ProductForm({ initialData, isEditMode = false }: Product
     };
 
     const DEFAULT_OPTION_GROUPS: OptionGroupDef[] = [
-        { key: 'color', label: 'Color', type: 'color', defaultValues: [], generatesVariants: false },
-        { key: 'lace_type', label: 'Lace Type', type: 'values', defaultValues: ['HD Lace', 'Transparent Lace'], generatesVariants: false },
-        { key: 'lace_length', label: 'Lace Length', type: 'values', defaultValues: ['2x6', '4x4', '5x5', '6x6', '7x7', '13x4', '13x6'], generatesVariants: false },
-        { key: 'length', label: 'Length', type: 'values', defaultValues: ['10"', '12"', '14"', '16"', '18"', '20"', '22"', '24"', '26"', '28"', '30"'], generatesVariants: true },
-        { key: 'wig_size', label: 'Size', type: 'values', defaultValues: ['Small', 'Medium', 'Large', 'Extra Large'], generatesVariants: false },
-        { key: 'density', label: 'Density', type: 'values', defaultValues: ['250', '300', '350'], generatesVariants: false },
+        { key: 'color', label: 'Color', type: 'color', defaultValues: [], generatesVariants: true },
+        { key: 'size', label: 'Size', type: 'values', defaultValues: ['Small', 'Medium', 'Large', 'Extra Large'], generatesVariants: true },
+        { key: 'material', label: 'Material', type: 'values', defaultValues: [], generatesVariants: false },
+        { key: 'capacity', label: 'Capacity', type: 'values', defaultValues: [], generatesVariants: true },
     ];
 
     // State: which option groups are enabled + their current values
@@ -60,6 +58,16 @@ export default function ProductForm({ initialData, isEditMode = false }: Product
         enabled: boolean;
         values: string[];
         generatesVariants: boolean;
+    };
+
+    // Legacy keys that may exist on older products — surfaced as custom groups
+    // so admins can still edit them without losing data when defaults change.
+    const LEGACY_KEY_LABELS: Record<string, string> = {
+        lace_type: 'Lace Type',
+        lace_length: 'Lace Length',
+        length: 'Length',
+        wig_size: 'Size',
+        density: 'Density',
     };
 
     const [optionGroupStates, setOptionGroupStates] = useState<Record<string, OptionGroupState>>(() => {
@@ -83,10 +91,27 @@ export default function ProductForm({ initialData, isEditMode = false }: Product
         return state;
     });
 
-    // Custom (non-default) option groups — for other product types
+    // Custom (non-default) option groups — for other product types.
+    // Also adopts any legacy stored keys not present in current defaults so
+    // existing products keep their data when re-edited.
     const [customGroups, setCustomGroups] = useState<{ name: string; values: string[]; generatesVariants: boolean }[]>(() => {
         const storedCustom = initialData?.metadata?.custom_option_groups as { name: string; values: string[]; generatesVariants?: boolean }[] | undefined;
-        return (storedCustom || []).map((g) => ({ ...g, generatesVariants: g.generatesVariants ?? true }));
+        const fromCustom = (storedCustom || []).map((g) => ({ ...g, generatesVariants: g.generatesVariants ?? true }));
+
+        const storedDefaults = initialData?.metadata?.product_options as Record<string, { values: string[]; generatesVariants?: boolean }> | undefined;
+        const defaultKeys = new Set(DEFAULT_OPTION_GROUPS.map(d => d.key));
+        const fromLegacy: { name: string; values: string[]; generatesVariants: boolean }[] = [];
+        if (storedDefaults) {
+            Object.entries(storedDefaults).forEach(([key, opt]) => {
+                if (defaultKeys.has(key)) return;
+                fromLegacy.push({
+                    name: LEGACY_KEY_LABELS[key] || key,
+                    values: opt.values || [],
+                    generatesVariants: opt.generatesVariants ?? false,
+                });
+            });
+        }
+        return [...fromCustom, ...fromLegacy];
     });
     const [customGroupInput, setCustomGroupInput] = useState('');
 

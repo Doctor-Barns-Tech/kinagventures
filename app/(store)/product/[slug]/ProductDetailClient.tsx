@@ -189,9 +189,12 @@ export default function ProductDetailClient({ slug }: { slug: string }) {
   // All option labels for display (variant-generating come from optionNames, selection-only from metadata)
   const allOptionLabels: { name: string; values: string[]; isColor: boolean; generatesVariants: boolean }[] = [];
 
-  // Map of default key -> label
+  // Map of default key -> label. Legacy wig-specific keys are kept here for
+  // backward compatibility with older product data, but new defaults are
+  // generic for a general goods store.
   const defaultKeyToLabel: Record<string, string> = {
-    color: 'Color', lace_type: 'Lace Type', lace_length: 'Lace Length',
+    color: 'Color', size: 'Size', material: 'Material', capacity: 'Capacity',
+    lace_type: 'Lace Type', lace_length: 'Lace Length',
     length: 'Length', wig_size: 'Size', density: 'Density',
   };
 
