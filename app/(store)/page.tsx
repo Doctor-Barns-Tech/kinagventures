@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { useCMS } from '@/context/CMSContext';
 import ProductCard, { type ColorVariant, getColorHex } from '@/components/ProductCard';
+import CategoryCard from '@/components/CategoryCard';
 import AnimatedSection, { AnimatedGrid } from '@/components/AnimatedSection';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -100,11 +101,25 @@ export default function Home() {
   const heroBadgeSubtext = getSetting('hero_badge_subtext');
 
   const features = [
-    { icon: getSetting('feature1_icon'), title: getSetting('feature1_title'), desc: getSetting('feature1_desc') },
-    { icon: getSetting('feature2_icon'), title: getSetting('feature2_title'), desc: getSetting('feature2_desc') },
-    { icon: getSetting('feature3_icon'), title: getSetting('feature3_title'), desc: getSetting('feature3_desc') },
-    { icon: getSetting('feature4_icon'), title: getSetting('feature4_title'), desc: getSetting('feature4_desc') },
+    {
+      icon: 'ri-shield-check-line',
+      title: getSetting('feature1_title') || 'Verified quality',
+      desc: getSetting('feature1_desc') || 'Quality-checked goods sourced directly from trusted China factories — no fakes, no surprises.',
+    },
+    {
+      icon: 'ri-truck-line',
+      title: getSetting('feature2_title') || 'Delivery & pickup',
+      desc: getSetting('feature2_desc') || 'Fast, reliable delivery across Ghana — or pick up from our Kasoa store whenever it suits you.',
+    },
+    {
+      icon: 'ri-price-tag-3-line',
+      title: getSetting('feature3_title') || 'Wholesale & retail',
+      desc: getSetting('feature3_desc') || 'Buy a single item or stock up in bulk — unbeatable prices for homes, businesses, and resellers.',
+    },
   ];
+
+  const siteName = getSetting('site_name') || 'KINAG VENTURES';
+  const importsBannerImage = getSetting('imports_banner_image') || '/imports-banner.png';
 
   const stat1Title = getSetting('hero_stat1_title');
   const stat1Desc = getSetting('hero_stat1_desc');
@@ -324,81 +339,37 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
           {/* Header */}
-          <AnimatedSection className="flex items-end justify-between mb-8 sm:mb-12">
+          <AnimatedSection className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 mb-8 sm:mb-12">
             <div>
-              <span className="text-[11px] font-bold tracking-[0.28em] uppercase text-primary mb-2 block">Collections</span>
-              <h2 className="font-serif text-3xl md:text-4xl text-gray-900">Shop by Category</h2>
+              <span className="flex items-center gap-2.5 text-[11px] font-bold tracking-[0.22em] uppercase text-primary mb-3">
+                <span className="w-7 h-px bg-primary" /> Shop by Category
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-dark leading-tight">
+                Find what you need
+              </h2>
+              <p className="text-gray-500 mt-3 max-w-md leading-relaxed">
+                Browse our most-loved aisles and stock up on everyday essentials.
+              </p>
             </div>
             <Link
               href="/categories"
-              className="hidden md:flex items-center gap-1.5 text-sm font-semibold text-primary hover:text-primary-dark group transition-colors"
+              className="self-start sm:self-auto inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-5 py-3 rounded-full hover:bg-primary-dark transition-colors shrink-0"
             >
-              View All
-              <i className="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-200" />
+              Browse full catalogue <i className="ri-arrow-right-line" />
             </Link>
           </AnimatedSection>
 
-          {/* Bento editorial grid — alternating wide/tall cards */}
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-            {categories.map((category, index) => {
-              /* 0 and 3 span 2 cols (landscape); 1,2,4,5 are portrait */
-              const isWide = index === 0 || index === 3;
-
-              return (
-                <Link
-                  href={`/shop?category=${category.slug}`}
-                  key={category.id}
-                  className={`group relative overflow-hidden rounded-2xl bg-gray-100 block ${
-                    isWide
-                      ? 'col-span-2 h-[160px] sm:h-[220px] lg:h-[240px]'
-                      : 'col-span-1 h-[190px] sm:h-[260px] lg:h-[280px]'
-                  }`}
-                >
-                  {/* Image */}
-                  <img
-                    src={
-                      category.image ||
-                      category.image_url ||
-                      `https://via.placeholder.com/800x600?text=${encodeURIComponent(category.name)}`
-                    }
-                    alt={category.name}
-                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                  />
-
-                  {/* Base gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  {/* Purple hover tint */}
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/25 transition-all duration-500" />
-
-                  {/* Editorial number */}
-                  <span className="absolute top-3 right-3 text-[10px] font-mono font-bold text-white/25 tracking-[0.2em] select-none">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-
-                  {/* Bottom panel */}
-                  <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 flex items-end justify-between">
-                    <div>
-                      <h3 className="text-white font-semibold text-xs sm:text-sm leading-tight drop-shadow-sm">
-                        {category.name}
-                      </h3>
-                      <p className="text-[10px] text-primary-light/0 group-hover:text-primary-light/90 mt-0.5 transition-all duration-300 translate-y-1 group-hover:translate-y-0 font-medium">
-                        Shop Now →
-                      </p>
-                    </div>
-                    <div className="w-6 h-6 rounded-full border border-primary/40 bg-primary/20 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 shrink-0 ml-2">
-                      <i className="ri-arrow-right-up-line text-[10px]" />
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Mobile view all */}
-          <div className="mt-6 text-center md:hidden">
-            <Link href="/categories" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary">
-              View All <i className="ri-arrow-right-line" />
-            </Link>
+          {/* Category cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+            {categories.slice(0, 4).map((category, index) => (
+              <CategoryCard
+                key={category.id}
+                name={category.name}
+                slug={category.slug}
+                image={category.image || category.image_url}
+                index={index}
+              />
+            ))}
           </div>
 
         </div>
@@ -491,21 +462,82 @@ export default function Home() {
         </div>
       </section>
 
-    {/* Trust Features */}
-    <section className="py-24 bg-white border-t border-gray-100">
+    {/* Why customers stay with us */}
+    <section className="py-16 sm:py-24 bg-white border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-12">
+
+        {/* Header */}
+        <AnimatedSection className="text-center max-w-2xl mx-auto mb-12 sm:mb-14">
+          <span className="inline-flex items-center justify-center text-[11px] font-bold tracking-[0.28em] uppercase text-primary mb-3">
+            Why customers stay with us
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-dark leading-tight">
+            Your trusted import partner
+          </h2>
+          <p className="text-gray-500 mt-4 leading-relaxed">
+            Verified, quality products sourced directly from China — electronics, appliances,
+            home goods and more, available wholesale and retail with reliable delivery across Ghana.
+          </p>
+        </AnimatedSection>
+
+        {/* Feature cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
           {features.map((feature, i) => (
-            <AnimatedSection key={i} delay={i * 0.1} className="flex flex-col items-start text-left group">
-              <div className="mb-5 text-gray-900 group-hover:text-primary transition-colors duration-500">
-                <i className={`${feature.icon} text-3xl font-light`}></i>
+            <AnimatedSection
+              key={i}
+              delay={i * 0.1}
+              className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-gradient-to-br from-white to-primary-soft p-7 sm:p-8 hover:shadow-lg hover:shadow-primary/10 transition-all duration-500"
+            >
+              <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white shadow-sm shadow-primary/30">
+                <i className={`${feature.icon} text-xl`}></i>
               </div>
-              <h3 className="font-bold text-gray-900 mb-2 text-sm tracking-wide uppercase">{feature.title}</h3>
-              <div className="h-px w-8 bg-gray-300 mb-4 group-hover:w-16 group-hover:bg-primary transition-all duration-500 ease-out"></div>
-              <p className="text-gray-500 text-sm leading-relaxed max-w-[200px]">{feature.desc}</p>
+              <h3 className="font-bold text-primary-dark mb-2 text-lg">{feature.title}</h3>
+              <p className="text-gray-500 text-sm leading-relaxed">{feature.desc}</p>
             </AnimatedSection>
           ))}
         </div>
+
+        {/* CTA banner */}
+        <AnimatedSection delay={0.2} className="mt-8 sm:mt-10">
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary-dark via-primary to-accent">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-stretch">
+              <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
+                <span className="text-[11px] font-bold tracking-[0.28em] uppercase text-white/60 mb-4">
+                  Shop with {siteName}
+                </span>
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight">
+                  Quality imports, without breaking the bank.
+                </h3>
+                <p className="text-white/70 mt-4 leading-relaxed max-w-md">
+                  Whether it&apos;s for your home, your business, or to resell — order wholesale
+                  or retail and let us deliver right across Ghana.
+                </p>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Link
+                    href="/shop"
+                    className="inline-flex items-center gap-2 bg-white text-primary-dark text-sm font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition-colors"
+                  >
+                    Start shopping <i className="ri-arrow-right-up-line" />
+                  </Link>
+                  <Link
+                    href="/auth/signup"
+                    className="inline-flex items-center gap-2 border border-white/30 text-white text-sm font-semibold px-6 py-3 rounded-full hover:bg-white/10 transition-colors"
+                  >
+                    Create an account
+                  </Link>
+                </div>
+              </div>
+              <div className="relative min-h-[240px] md:min-h-full">
+                <img
+                  src={importsBannerImage}
+                  alt="Quality imported goods ready for delivery across Ghana"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+
       </div>
     </section>
     </main>

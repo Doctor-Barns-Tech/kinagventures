@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import CategoryCard from '@/components/CategoryCard';
 
 export const revalidate = 0;
 
@@ -19,7 +20,16 @@ export default async function CategoriesPage() {
     <div className="min-h-screen bg-white">
 
       {/* ── Hero ───────────────────────────────────────────────── */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-primary to-accent overflow-hidden">
+      <div className="relative bg-primary-dark overflow-hidden">
+        {/* Background image */}
+        <img
+          src="/hero-warehouse.png"
+          alt=""
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Brand gradient overlay for legibility */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-dark/90 via-primary/85 to-accent/85" aria-hidden />
         {/* Decorative circles */}
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5 pointer-events-none" />
         <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-white/5 pointer-events-none" />
@@ -60,60 +70,37 @@ export default async function CategoriesPage() {
 
         {categories.length > 0 ? (
           <>
+            {/* Section header — matches home page "Shop by Category" */}
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 mb-8 sm:mb-12">
+              <div>
+                <span className="flex items-center gap-2.5 text-[11px] font-bold tracking-[0.22em] uppercase text-primary mb-3">
+                  <span className="w-7 h-px bg-primary" /> Shop by Category
+                </span>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-dark leading-tight">
+                  Find what you need
+                </h2>
+                <p className="text-gray-500 mt-3 max-w-md leading-relaxed">
+                  Browse our most-loved categories and stock up on quality imports.
+                </p>
+              </div>
+              <Link
+                href="/shop"
+                className="self-start sm:self-auto inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-5 py-3 rounded-full hover:bg-primary-dark transition-colors shrink-0"
+              >
+                Browse full catalogue <i className="ri-arrow-right-line" />
+              </Link>
+            </div>
+
             {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
               {categories.map((category, index) => (
-                <Link
+                <CategoryCard
                   key={category.id}
-                  href={`/shop?category=${category.slug}`}
-                  className="group block"
-                >
-                  {/* Image card */}
-                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100 mb-3.5">
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-                    />
-
-                    {/* Dark overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-                    {/* Purple hover tint */}
-                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/30 transition-all duration-500" />
-
-                    {/* Index number */}
-                    <span className="absolute top-3 right-3 text-[10px] font-mono font-bold text-white/30 tracking-[0.2em] select-none">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-
-                    {/* Hover CTA badge */}
-                    <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300">
-                      <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-white text-[11px] font-bold tracking-wide shadow-lg">
-                        Shop Now <i className="ri-arrow-right-line text-xs" />
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Text row */}
-                  <div className="flex items-center justify-between px-0.5">
-                    <div className="min-w-0">
-                      <h3 className="font-semibold text-gray-900 text-sm sm:text-[15px] leading-snug group-hover:text-primary transition-colors duration-200 truncate pr-4">
-                        {category.name}
-                      </h3>
-                      {category.description && (
-                        <p className="text-xs text-gray-400 mt-0.5 line-clamp-1">{category.description}</p>
-                      )}
-                    </div>
-                    <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary opacity-0 group-hover:opacity-100 shrink-0 transition-all duration-200 group-hover:bg-primary/20">
-                      <i className="ri-arrow-right-up-line text-xs" />
-                    </div>
-                  </div>
-
-                  {/* Animated underline */}
-                  <div className="mt-2 h-[1.5px] bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-primary w-0 group-hover:w-full transition-all duration-500 ease-out rounded-full" />
-                  </div>
-                </Link>
+                  name={category.name}
+                  slug={category.slug}
+                  image={category.image}
+                  index={index}
+                />
               ))}
             </div>
 
@@ -134,7 +121,8 @@ export default async function CategoriesPage() {
       </div>
 
       {/* ── Bottom CTA ─────────────────────────────────────────── */}
-      <div className="bg-gradient-to-br from-primary-dark via-primary to-accent relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="bg-gradient-to-br from-primary-dark via-primary to-accent relative overflow-hidden rounded-3xl">
         <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/5 pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-white/5 pointer-events-none" />
 
@@ -162,6 +150,7 @@ export default async function CategoriesPage() {
               <i className="ri-customer-service-line" /> Contact Us
             </Link>
           </div>
+        </div>
         </div>
       </div>
 

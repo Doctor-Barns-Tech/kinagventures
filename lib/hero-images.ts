@@ -4,16 +4,18 @@
  * Replace with your own images.
  */
 export const HERO_IMAGES = [
+  // [0-2] Home page hero slider — DO NOT change these (home hero has its own images)
   '/Whisk_a857b7588640cbbad194c0ace9446d59dr.jpeg',
   '/Whisk_wktmlrwmjbzmyqwotijz0ktl3gdo00snlvtmtgj.jpeg',
   '/Whisk_zydnjrzmjfgz1qtotmzy4iwlyitz00sozezntyj.jpeg',
-  '/Whisk_0mzn0e2mjvwyxygztujzlfwlif2y00ym1utmtkj.jpeg',
-  '/Whisk_mrtn1uwoyywn0cjntm2n1gtl1yto00izlljztuz.jpeg',
-  '/Whisk_xewz2kjnivdnmfdntimmihtl4gjz00czjz2ytym.jpeg',
-  '/Whisk_2gzmze2m4qzymr2mtity2iwl2iwm00yyzmgnte2.jpeg',
-  '/Whisk_4065e68394fcad5821249d7ba1d4a936dr.jpeg',
-  '/Whisk_cbd8f0a2aa4293db4da4e6f66890d60edr.jpeg',
-  '/Whisk_629a074138a1f1ea2a34c6eb856de2d1dr.jpeg',
+  // [3+] Other pages' hero sections — importation-themed images
+  '/hero-about.png',     // [3] About page hero background
+  '/hero-founder.png',   // [4] About page story / founder portrait
+  '/hero-warehouse.png', // [5] Generic fallback hero
+  '/hero-delivery.png',  // [6] About page CTA background
+  '/hero-contact.png',   // [7] Contact page hero
+  '/hero-shop.png',      // [8] Shop page hero
+  '/hero-cart.png',      // [9] Cart + Wishlist page hero
   '/Whisk_dc59e126b5601208efb499e94a3fe0c7dr.jpeg',
   '/Whisk_43df2319664f338b5834742afe5425cfdr.jpeg',
   '/Whisk_ygzmiz2nhzzn5u2ytmwzkltlxqmn00ym3mmnty2.jpeg',
