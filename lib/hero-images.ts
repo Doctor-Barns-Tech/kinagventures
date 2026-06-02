@@ -9,13 +9,13 @@ export const HERO_IMAGES = [
   '/Whisk_wktmlrwmjbzmyqwotijz0ktl3gdo00snlvtmtgj.jpeg',
   '/Whisk_zydnjrzmjfgz1qtotmzy4iwlyitz00sozezntyj.jpeg',
   // [3+] Other pages' hero sections — importation-themed images
-  '/hero-about.png',     // [3] About page hero background
-  '/hero-founder.png',   // [4] About page story / founder portrait
-  '/hero-warehouse.png', // [5] Generic fallback hero
-  '/hero-delivery.png',  // [6] About page CTA background
-  '/hero-contact.png',   // [7] Contact page hero
-  '/hero-shop.png',      // [8] Shop page hero
-  '/hero-cart.png',      // [9] Cart + Wishlist page hero
+  '/hero-about.webp',     // [3] About page hero background
+  '/hero-founder.webp',   // [4] About page story / founder portrait
+  '/hero-warehouse.webp', // [5] Generic fallback hero
+  '/hero-delivery.webp',  // [6] About page CTA background
+  '/hero-contact.webp',   // [7] Contact page hero
+  '/hero-shop.webp',      // [8] Shop page hero
+  '/hero-cart.webp',      // [9] Cart + Wishlist page hero
   '/Whisk_dc59e126b5601208efb499e94a3fe0c7dr.jpeg',
   '/Whisk_43df2319664f338b5834742afe5425cfdr.jpeg',
   '/Whisk_ygzmiz2nhzzn5u2ytmwzkltlxqmn00ym3mmnty2.jpeg',

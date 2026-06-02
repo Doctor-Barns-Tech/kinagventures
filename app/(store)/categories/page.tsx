@@ -23,7 +23,7 @@ export default async function CategoriesPage() {
       <div className="relative bg-primary-dark overflow-hidden">
         {/* Background image */}
         <img
-          src="/hero-warehouse.png"
+          src="/hero-warehouse.webp"
           alt=""
           aria-hidden
           className="absolute inset-0 w-full h-full object-cover"

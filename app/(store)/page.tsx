@@ -119,7 +119,7 @@ export default function Home() {
   ];
 
   const siteName = getSetting('site_name') || 'KINAG VENTURES';
-  const importsBannerImage = getSetting('imports_banner_image') || '/imports-banner.png';
+  const importsBannerImage = getSetting('imports_banner_image') || '/imports-banner.webp';
 
   const stat1Title = getSetting('hero_stat1_title');
   const stat1Desc = getSetting('hero_stat1_desc');
